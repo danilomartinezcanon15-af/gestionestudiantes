@@ -183,3 +183,16 @@ def anadir_estudiante(request):
         
     return render(request, 'estudiantes/form.html')
 # verifica que el usuario este loggeado
+@login_required_firebase # Verifica que el usuario esta loggeado
+def eliminar_estudiante(request, estudiante_id):
+    """
+    DELETE: Eliminar un documento especifico por id
+    """
+    try:
+        db.collection('estudiantes').document(estudiante_id).delete()
+        messages.success(request, "🗑️ estudiante eliminado.")
+    except Exception as e:
+        messages.error(request, f"Error al eliminar: {e}")
+
+    return redirect('listar_estudiantes')
+#eliminar estudiante
